@@ -18,7 +18,7 @@
   <classpaths>
     <class path="D:\HaxeToolkit\haxe\lib\openfl\4,4,1" />
     <class path="D:\HaxeToolkit\haxe\lib\lime\3,4,1" />
-    <class path="D:\HaxeToolkit\haxe\lib\modestmaps-openfl\1,0,0" />
+    <class path="D:\HaxeToolkit\haxe\lib\modestmaps-openfl\git" />
     <class path="D:\HaxeToolkit\haxe\lib\actuate\1,8,7" />
     <class path="src" />
     <class path="d:\HaxeToolkit\haxe\lib\openfl\4,4,1\externs\core\openfl" />
