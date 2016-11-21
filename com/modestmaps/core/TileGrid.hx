@@ -1359,21 +1359,18 @@ class TileGrid extends Sprite
     {
         worldMatrix.a = n;
         dirty = true;
-		trace("a: " + n);
         return n;
     }
     private function set_b(n : Float) : Float
     {
         worldMatrix.b = n;
         dirty = true;
-		trace("b: " + n);
         return n;
     }
     private function set_c(n : Float) : Float
     {
         worldMatrix.c = n;
         dirty = true;
-		trace("c: " + n);
         return n;
     }
     private function set_d(n : Float) : Float
@@ -1386,14 +1383,12 @@ class TileGrid extends Sprite
     {
         worldMatrix.tx = n;
         dirty = true;
-		trace("tx: " + n);
         return n;
     }
     private function set_ty(n : Float) : Float
     {
         worldMatrix.ty = n;
         dirty = true;
-		trace("ty: " + n);
         return n;
     }
 }

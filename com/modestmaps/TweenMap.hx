@@ -15,6 +15,7 @@ import com.modestmaps.core.MapExtent;
 import com.modestmaps.core.TweenTile;
 import com.modestmaps.geo.Location;
 import com.modestmaps.mapproviders.IMapProvider;
+import motion.easing.IEasing;
 import motion.easing.Quad;
 
 import flash.events.MouseEvent;
@@ -28,6 +29,7 @@ import motion.easing.Quad;
 class TweenMap extends Map
 {
     private static inline var LN2 = 0.6931471805599453;
+	public var zoomEase:IEasing = Quad.easeOut;
     /** easing function used for panLeft, panRight, panUp, panDown */
     //public var panEase : Dynamic = quadraticEaseOut;
     /** time to pan using panLeft, panRight, panUp, panDown */
@@ -90,7 +92,7 @@ class TweenMap extends Map
 		//TweenLite.to(grid, duration, { a: m.a, b: m.b, c: m.c, d: m.d, tx: m.tx, ty: m.ty, onComplete: panAndZoomComplete });
 		
 		
-        Actuate.tween(grid, duration, {
+        /*Actuate.tween(grid, duration, {
                     a : m.a,
                     b : m.b,
                     c : m.c,
@@ -98,7 +100,9 @@ class TweenMap extends Map
                     tx : m.tx,
 					ty : m.ty})
 					.ease(Quad.easeOut)
-					.onComplete(panAndZoomComplete);
+					.onComplete(panAndZoomComplete);*/
+					
+		Actuate.tween(grid, duration, { a: m.a, b: m.b, c: m.c, d: m.d, tx: m.tx, ty: m.ty}).ease(zoomEase).onComplete(panAndZoomComplete);		
 	}
     
     /** call grid.donePanning() and grid.doneZooming(), used by tweenExtent, 
@@ -276,15 +280,12 @@ class TweenMap extends Map
     {
         if (!__draggable || grid.panning)             return;
         
-		//trace("entrando en tweenmap");
         //todo TweenLite.killTweensOf(grid);
-		//Actuate.stop(grid);
-		
-		//Actuate.reset();
 		
         Actuate.stop(grid);
 		//todo TweenLite.killDelayedCallsTo(doneMouseWheeling);
-        var sc : Float=0;
+        var sc : Float = 0;
+		
         if (event.delta < 0) {  
             if (grid.zoomLevel > grid.minZoom) {
                 mouseWheelingOut = true;
@@ -292,10 +293,6 @@ class TweenMap extends Map
                 sc = Math.max(0.5, 1.0 + event.delta / 20.0);
             }
         }
-        /* trace('scale', sc);
-			trace('delta', event.delta);
-            trace('mouseWheelingIn', mouseWheelingIn);
-            trace('mouseWheelingOut', mouseWheelingOut); */
         else if (event.delta > 0) {
             if (grid.zoomLevel < grid.maxZoom) {
                 mouseWheelingIn = true;
@@ -304,9 +301,7 @@ class TweenMap extends Map
             }
         }
         
-        
-        
-        
+      
         if (sc != 0) {
             var p : Point = grid.globalToLocal(new Point(event.stageX, event.stageY));
             var m : Matrix = grid.getMatrix();
@@ -315,28 +310,29 @@ class TweenMap extends Map
             m.translate(p.x, p.y);
             grid.setMatrix(m);
         }
-        
-        //TweenLite.delayedCall(0.1, doneMouseWheeling);
-	    event.updateAfterEvent();		
-		Actuate.timer(0.1).onComplete(doneMouseWheeling);
 
         
-		
+		Actuate.timer(0.1).onComplete(doneMouseWheeling);
+
+		event.updateAfterEvent();	
     }
     
     private function doneMouseWheeling() : Void
     {
+		trace ("grid.zoomlevel=" + Std.string(grid.zoomLevel));
+		
         var p : Point = grid.globalToLocal(new Point(stage.mouseX, stage.mouseY));
         if (mouseWheelingIn) {
-			trace("wheel in: " + Std.string(Math.ceil(grid.zoomLevel) - grid.zoomLevel));
+			//trace("wheel in: " + Std.string(Math.ceil(grid.zoomLevel) - grid.zoomLevel));
             zoomByAbout(Math.ceil(grid.zoomLevel) - grid.zoomLevel, p, panAndZoomDuration);
+
         }
         else if (mouseWheelingOut) {
-			trace("wheel out: " + Std.string(Math.floor(grid.zoomLevel) - grid.zoomLevel));
+			//trace("wheel out: " + Std.string(Math.floor(grid.zoomLevel) - grid.zoomLevel));
             zoomByAbout(Math.floor(grid.zoomLevel) - grid.zoomLevel, p, panAndZoomDuration);
         }
         else {
-			trace("no wheel: " + Std.string(  Math.round(grid.zoomLevel) - grid.zoomLevel));
+			//trace("no wheel: " + Std.string(  Math.round(grid.zoomLevel) - grid.zoomLevel));
             zoomByAbout(Math.round(grid.zoomLevel) - grid.zoomLevel, p, panAndZoomDuration);
         }
         mouseWheelingOut = false;
