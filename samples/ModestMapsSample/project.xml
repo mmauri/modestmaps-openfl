@@ -8,12 +8,9 @@
 	<!-- output -->
 	<app main="ModestMapsSample" file="ModestMapsSample" path="bin" />
 	
-	
-	<!-- <window background="#ffffff" fps="60" /> -->
-	<!--
-	<window width="0" height="0" unless="mobile" />
-	-->
-	<window orientation="landscape" vsync="false" antialiasing="0" if="cpp" />
+	<!--<window background="#ffffff" fps="60" vsync="false" />
+	<window width="800" height="600" unless="mobile" />
+	<window orientation="landscape" vsync="false" antialiasing="0" if="cpp" /> -->
 	
 	<!-- classpath, haxe libs -->
 	<source path="src" />
@@ -23,9 +20,9 @@
 	
 	<!-- assets -->
 	<icon path="assets/openfl.svg" />
-	<assets path="assets/img" rename="img" />
 	
 	<!-- optimize output-->
 	<haxeflag name="-dce std" />
+	<haxedef name="DOM" />
 	
 </project>

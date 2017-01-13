@@ -88,8 +88,6 @@ class ZoomSlider extends Sprite
 		Actuate.tween(map.grid,0.25,{
                     zoomLevel : Math.round(map.grid.minZoom + (map.grid.maxZoom - map.grid.minZoom) * (1 - proportion))
                 });
-				
-		throw new Error("not implemented");
     }
     
     private function onThumbMouse(event : Event) : Void

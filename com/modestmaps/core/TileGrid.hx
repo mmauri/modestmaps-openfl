@@ -1,6 +1,5 @@
 package com.modestmaps.core;
 
-
 import com.modestmaps.core.painter.ITilePainter;
 import com.modestmaps.core.painter.ITilePainterOverride;
 import com.modestmaps.core.painter.TilePainter;
@@ -18,17 +17,10 @@ import openfl.geom.Matrix;
 import openfl.geom.Point;
 import openfl.geom.Rectangle;
 import openfl.text.TextField;
-
-
-
-
 import com.modestmaps.core.TileGrid;
 import com.modestmaps.core.Tile;
-import flash.text.TextFormat;
-
-import flash.system.System;
-
-
+import openfl.text.TextFormat;
+import openfl.system.System;
 
 class TileGrid extends Sprite
 {

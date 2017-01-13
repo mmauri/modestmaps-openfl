@@ -1,5 +1,5 @@
 package;
-import com.modestmaps.Map;
+//import com.modestmaps.Map;
 import com.modestmaps.TweenMap;
 import com.modestmaps.mapproviders.CartoDBProvider.CARTODB_MAPTYPE;
 
@@ -44,7 +44,7 @@ import openfl.text.TextFormat;
 class ModestMapsSample extends Sprite
 {
 	// Our modest map
-	private var map:Map;
+	private var map:TweenMap;
 	
 	// a tooltip/flag that appears on marker rollover
 	private var tooltip:Tooltip;
@@ -99,7 +99,7 @@ class ModestMapsSample extends Sprite
 						   new OpenStreetMapProvider(),
 						   [{new MapExtent(37.829853, 37.700121, -122.212601, -122.514725); }] );*/
 						   
-		map = new Map(stage.stageWidth - 2 * PADDING, stage.stageHeight - 2 * PADDING, 
+		map = new TweenMap(stage.stageWidth - 2 * PADDING, stage.stageHeight - 2 * PADDING, 
 						   true,
 						   new CartoDBProvider(CARTODB_MAPTYPE.POSITRON,true),
 						   [{new MapExtent(37.829853, 37.700121, -122.212601, -122.514725); }] );
@@ -149,16 +149,16 @@ class ModestMapsSample extends Sprite
 		// create some provider buttons 
 
 		mapButtons = new Sprite();
-		mapButtons.addChild(new MapProviderButton('Open Street Map', map.getMapProvider(), true));
-		//mapButtons.addChild(new MapProviderButton('Open Street Map', new OpenStreetMapProvider()));
-		mapButtons.addChild(new MapProviderButton('MS Road', new MicrosoftRoadMapProvider()));
+		mapButtons.addChild(new MapProviderButton('Carto Positron SSL', map.getMapProvider(), true));
+		mapButtons.addChild(new MapProviderButton('Open Street Map', new OpenStreetMapProvider()));
+		/*mapButtons.addChild(new MapProviderButton('MS Road', new MicrosoftRoadMapProvider()));
 		mapButtons.addChild(new MapProviderButton('MS Aerial', new MicrosoftAerialMapProvider()));
 		mapButtons.addChild(new MapProviderButton('MS Hybrid', new MicrosoftHybridMapProvider()));        	
 		mapButtons.addChild(new MapProviderButton('Yahoo Road', new YahooRoadMapProvider()));
 		mapButtons.addChild(new MapProviderButton('Yahoo Aerial', new YahooAerialMapProvider()));
 		mapButtons.addChild(new MapProviderButton('Yahoo Hybrid', new YahooHybridMapProvider()));        	
 		
-		mapButtons.addChild(new MapProviderButton('AC Transit', new ACTransitMapProvider()));
+		mapButtons.addChild(new MapProviderButton('AC Transit', new ACTransitMapProvider()));*/
 					
 		// arrange buttons 22px apart
 		for (n in 0...mapButtons.numChildren) {
@@ -176,8 +176,9 @@ class ModestMapsSample extends Sprite
 		// add children to the display list
 		addChild(map);
 		addChild(status);
-		addChild(mapButtons);	  
+		
 		addChild(tooltip);   
+		addChild(mapButtons);	  
 		
 		
 	}

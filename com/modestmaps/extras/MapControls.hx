@@ -3,8 +3,8 @@ package com.modestmaps.extras;
 import haxe.ds.IntMap;
 
 #if flash
-//todo import flash.events.FullScreenEvent;
-//todo import com.modestmaps.extras.ui.FullScreenButton;
+import flash.events.FullScreenEvent;
+import com.modestmaps.extras.ui.FullScreenButton;
 #end
 import openfl.display.DisplayObject;
 import openfl.display.Sprite;
@@ -15,9 +15,12 @@ import openfl.filters.DropShadowFilter;
 import openfl.geom.ColorTransform;
 import openfl.text.TextField;
 import openfl.ui.Keyboard;
+//import openfl.utils.Object;
+
 import com.modestmaps.Map;
 import com.modestmaps.events.MapEvent;
 import com.modestmaps.extras.ui.Button;
+//import com.modestmaps.util.DebugUtil;
 
 
 /** 
@@ -41,15 +44,15 @@ class MapControls extends Sprite
 	public var inButton:Button;
 	public var outButton:Button;
 	
-//	#if flash
-//todo	public var fullScreenButton:FullScreenButton = new FullScreenButton();
-//	#end
+	#if flash
+	public var fullScreenButton:FullScreenButton = new FullScreenButton();
+	#end
 
 	private var map:Map;
 	private var keyboard:Bool;
 	private var fullScreen:Bool;
 
-	private var buttons:Array<Button>;
+	private var buttons:Array<DisplayObject>;
 	private var actions:Array<Dynamic>;
 
 	// you can change these if you want,
@@ -182,8 +185,8 @@ class MapControls extends Sprite
 		if (fullScreen)
 		{
 			#if flash
-			//todo buttons.push(fullScreenButton);
-			//todo actions.push(fullScreenButton.toggleFullScreen);
+			buttons.push(fullScreenButton);
+			actions.push(fullScreenButton.toggleFullScreen);
 			#end
 		}   
 
@@ -200,8 +203,8 @@ class MapControls extends Sprite
 	{	
 		#if flash 
 			for (button in buttons) {
-				button.overTransform = overTransform;
-				button.outTransform = outTransform;	
+				//button.overTransform = overTransform;
+				//button.outTransform = outTransform;	
 				button.transform.colorTransform = outTransform;
 			}
 		#end
@@ -216,7 +219,7 @@ class MapControls extends Sprite
 		
 		if (fullScreen) { 
 			#if flash
-			//todo stage.addEventListener(FullScreenEvent.FULL_SCREEN, onFullScreenEvent);
+			stage.addEventListener(FullScreenEvent.FULL_SCREEN, onFullScreenEvent);
 			#end
 		}
 		
