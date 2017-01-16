@@ -14,15 +14,16 @@
 	
 	<!-- classpath, haxe libs -->
 	<source path="src" />
+	<haxelib name="actuate" />
 	<haxelib name="openfl" />
 	<haxelib name="modestmaps-openfl" />
-	<haxelib name="actuate" />
+
 	
 	<!-- assets -->
 	<icon path="assets/openfl.svg" />
 	
 	<!-- optimize output-->
 	<haxeflag name="-dce std" />
-	<haxedef name="DOM" />
+	<!--<haxedef name="DOM" />-->
 	
 </project>

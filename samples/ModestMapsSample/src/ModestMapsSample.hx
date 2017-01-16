@@ -1,6 +1,6 @@
 package;
-//import com.modestmaps.Map;
-import com.modestmaps.TweenMap;
+import com.modestmaps.Map;
+//import com.modestmaps.TweenMap;
 import com.modestmaps.mapproviders.CartoDBProvider.CARTODB_MAPTYPE;
 
 import openfl.utils.Object;
@@ -44,7 +44,7 @@ import openfl.text.TextFormat;
 class ModestMapsSample extends Sprite
 {
 	// Our modest map
-	private var map:TweenMap;
+	private var map:Map;
 	
 	// a tooltip/flag that appears on marker rollover
 	private var tooltip:Tooltip;
@@ -99,7 +99,7 @@ class ModestMapsSample extends Sprite
 						   new OpenStreetMapProvider(),
 						   [{new MapExtent(37.829853, 37.700121, -122.212601, -122.514725); }] );*/
 						   
-		map = new TweenMap(stage.stageWidth - 2 * PADDING, stage.stageHeight - 2 * PADDING, 
+		map = new Map(stage.stageWidth - 2 * PADDING, stage.stageHeight - 2 * PADDING, 
 						   true,
 						   new CartoDBProvider(CARTODB_MAPTYPE.POSITRON,false),
 						   [{new MapExtent(37.829853, 37.700121, -122.212601, -122.514725); }] );
@@ -130,7 +130,7 @@ class ModestMapsSample extends Sprite
 
 		map.addChild(new ZoomBox(map));
 
-		//map.addChild(new NavigatorWindow(map));
+		map.addChild(new NavigatorWindow(map));
 
 		// add a default copyright handler to the map
 		//map.addChild(new MapCopyright(map, 140));

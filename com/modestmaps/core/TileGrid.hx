@@ -60,6 +60,8 @@ class TileGrid extends Sprite
     private static var DEFAULT_ROUND_SCALES : Bool = true;
 	
 	public static inline var LN2 = 0.6931471805599453;
+	
+	private var debugNumRenders : Int = 0;
     
     /** if we don't have a tile at currentZoom, onRender will look for tiles up to 5 levels out.
 		 *  set this to 0 if you only want the current zoom level's tiles
@@ -346,14 +348,16 @@ class TileGrid extends Sprite
 		 */
     private function onRender(event : Event = null) : Void
     {
-        var t : Float = Math.round(haxe.Timer.stamp() * 1000);
+        //var t : Float = Math.round(haxe.Timer.stamp() * 1000);
         
         if (!dirty || stage==null) {
             //trace(getTimer() - t, "ms in", provider);
             onRendered();
             return;
         }
-        trace("**********************RENDER******************");
+		debugNumRenders++;
+		trace("Render #" + debugNumRenders);
+		
         var boundsEnforced : Bool = enforceBounds();
         
         if (zooming || panning) {
@@ -1349,36 +1353,42 @@ class TileGrid extends Sprite
     
     private function set_a(n : Float) : Float
     {
+			trace("grid a:" +n);
         worldMatrix.a = n;
         dirty = true;
         return n;
     }
     private function set_b(n : Float) : Float
     {
+			trace("grid b:" +n);
         worldMatrix.b = n;
         dirty = true;
         return n;
     }
     private function set_c(n : Float) : Float
     {
+		trace("grid c:" +n);
         worldMatrix.c = n;
         dirty = true;
         return n;
     }
     private function set_d(n : Float) : Float
     {
+		trace("grid d:" +n);
         worldMatrix.d = n;
         dirty = true;
         return n;
     }
     private function set_tx(n : Float) : Float
     {
+		trace("grid tx:" +n);
         worldMatrix.tx = n;
         dirty = true;
         return n;
     }
     private function set_ty(n : Float) : Float
     {
+				trace("grid ty:" +n);
         worldMatrix.ty = n;
         dirty = true;
         return n;
