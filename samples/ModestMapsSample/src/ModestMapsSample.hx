@@ -101,7 +101,7 @@ class ModestMapsSample extends Sprite
 						   
 		map = new TweenMap(stage.stageWidth - 2 * PADDING, stage.stageHeight - 2 * PADDING, 
 						   true,
-						   new CartoDBProvider(CARTODB_MAPTYPE.POSITRON,true),
+						   new CartoDBProvider(CARTODB_MAPTYPE.POSITRON,false),
 						   [{new MapExtent(37.829853, 37.700121, -122.212601, -122.514725); }] );
 						   
 					   
@@ -149,7 +149,8 @@ class ModestMapsSample extends Sprite
 		// create some provider buttons 
 
 		mapButtons = new Sprite();
-		mapButtons.addChild(new MapProviderButton('Carto Positron SSL', map.getMapProvider(), true));
+		mapButtons.addChild(new MapProviderButton('Carto Positron', map.getMapProvider(), true));
+		mapButtons.addChild(new MapProviderButton('Carto Positron SSL', new CartoDBProvider(CARTODB_MAPTYPE.POSITRON,true)));
 		mapButtons.addChild(new MapProviderButton('Open Street Map', new OpenStreetMapProvider()));
 		/*mapButtons.addChild(new MapProviderButton('MS Road', new MicrosoftRoadMapProvider()));
 		mapButtons.addChild(new MapProviderButton('MS Aerial', new MicrosoftAerialMapProvider()));
@@ -323,6 +324,6 @@ class ModestMapsSample extends Sprite
 	
 	private function onResized(event:MapEvent):Void 
 	{
-		status.text = 'Resized to: ' + event.newSize[0] + ' x ' + event.newSize[1];
+		status.text = 'Resized to: ' + event.newSize.x + ' x ' + event.newSize.y;
 	}
 }

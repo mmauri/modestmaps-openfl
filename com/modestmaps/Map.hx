@@ -30,6 +30,7 @@ import com.modestmaps.geo.Location;
 import com.modestmaps.events.MapEvent;
 import com.modestmaps.core.MapExtent;
 import com.modestmaps.core.TileGrid;
+import com.modestmaps.mapproviders.OpenStreetMapProvider;
 import openfl.errors.Error;
 
 import com.modestmaps.core.*;
@@ -100,7 +101,7 @@ class Map extends Sprite
     /** fraction of width/height to pan panLeft, panRight, panUp, panDown
 		 * @default 0.333333333  
 		 */
-    public var panFraction : Float = 0.333333333;
+    private var panFraction : Float = 0.333333333;
 	private static inline var LN2 = 0.6931471805599453;
     
     /**
@@ -119,7 +120,7 @@ class Map extends Sprite
 		mapProvider : IMapProvider = null, rest : Array<Dynamic> = null)
     {
         super();
-        if (mapProvider == null)             mapProvider = new MicrosoftProvider(MicrosoftProvider.ROAD);  // TODO getter/setter for this that disables interaction in TileGrid  ;
+        if (mapProvider == null)             mapProvider = new OpenStreetMapProvider();  // TODO getter/setter for this that disables interaction in TileGrid  ;
         
         
         
@@ -375,7 +376,7 @@ class Map extends Sprite
             
             grid.resizeTo(new Point(mapWidth, mapHeight));
             
-            dispatchEvent(new MapEvent(MapEvent.RESIZED, this.getSize()));
+            dispatchEvent(new MapEvent(MapEvent.RESIZED, [this.size]));
         }
     }
     
@@ -384,11 +385,10 @@ class Map extends Sprite
 	    *
 	    * @return   Array of [width, height].
 	    */
-    public function getSize() : Array<Float>
+  /*  public function getSize() : Point
     {
-        var size : Array<Float> = [mapWidth, mapHeight];
-        return size;
-    }
+		return  new Point(mapWidth, mapHeight);
+    }*/
     
     private function get_size() : Point
     {

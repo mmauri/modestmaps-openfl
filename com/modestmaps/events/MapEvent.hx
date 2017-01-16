@@ -30,7 +30,7 @@ class MapEvent extends Event
     public var panDelta : Point;
     
     public static inline var RESIZED : String = "resized";
-    public var newSize : Array<Dynamic>;
+    public var newSize : Point;
     
     public static inline var COPYRIGHT_CHANGED : String = "copyrightChanged";
     public var newCopyright : String;
@@ -73,7 +73,7 @@ class MapEvent extends Event
                     zoomLevel = rest[0];
                 }
             case RESIZED:
-                if (rest.length > 0 && Std.is(rest[0], Array)) {
+                if (rest.length > 0 && Std.is(rest[0], Point)) {
                     newSize = rest[0];
                 }
             case COPYRIGHT_CHANGED:
