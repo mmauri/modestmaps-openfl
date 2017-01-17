@@ -27,8 +27,8 @@ class TileGrid extends Sprite
     private var invertedMatrix(get, never) : Matrix;
     public var minZoom(get, never) : Int;
     public var maxZoom(get, never) : Int;
-    public var tileWidth(get, never) : Int;
-    public var tileHeight(get, never) : Int;
+    public var tileWidth(get, never) : Float;
+    public var tileHeight(get, never) : Float;
     public var currentTileZoom(get, never) : Int;
     public var topLeftCoordinate(get, never) : Coordinate;
     public var bottomRightCoordinate(get, never) : Coordinate;
@@ -61,7 +61,7 @@ class TileGrid extends Sprite
 	
 	public static inline var LN2 = 0.6931471805599453;
 	
-	private var debugNumRenders : Int = 0;
+	private var isRendering : Bool = false;
     
     /** if we don't have a tile at currentZoom, onRender will look for tiles up to 5 levels out.
 		 *  set this to 0 if you only want the current zoom level's tiles
@@ -110,8 +110,8 @@ class TileGrid extends Sprite
 	private var maxTy : Float;
     
     // read-only, convenience for tileWidth/Height
-    private var _tileWidth : Int;
-    private var _tileHeight : Int;
+    private var _tileWidth : Float;
+    private var _tileHeight : Float;
     
     // pan and zoom etc are stored in here
     // NB: this matrix is never applied to a DisplayObject's transform
@@ -242,7 +242,7 @@ class TileGrid extends Sprite
         var key : String = tileKey(Std.int(coord.column), Std.int(coord.row), Std.int(coord.zoom));
         return cast(well.getChildByName(key), Tile);
     }
-    
+
     private function onAddedToStage(event : Event) : Void
     {
         if (draggable) {
@@ -350,13 +350,13 @@ class TileGrid extends Sprite
     {
         //var t : Float = Math.round(haxe.Timer.stamp() * 1000);
         
-        if (!dirty || stage==null) {
+		
+        if (!dirty || stage==null || isRendering) {
             //trace(getTimer() - t, "ms in", provider);
             onRendered();
             return;
         }
-		debugNumRenders++;
-		trace("Render #" + debugNumRenders);
+		isRendering = true;
 		
         var boundsEnforced : Bool = enforceBounds();
         
@@ -481,6 +481,7 @@ class TileGrid extends Sprite
         onRendered();
         
         dirty = false;
+		isRendering = false;
     }
     
     /**
@@ -572,7 +573,7 @@ class TileGrid extends Sprite
                         
                         // if it doesn't have an image yet, see if we can make it from smaller images
                         if (!foundParent && maxChildSearch > 0 && currentTileZoom < maxZoom) {
-                            for (czoom in currentTileZoom + 1...Std.int(Math.min(maxZoom, currentTileZoom + maxChildSearch) + 1)){
+                            for (czoom in (currentTileZoom + 1)...Std.int(Math.min(maxZoom, currentTileZoom + maxChildSearch))) {
                                 var ckeys : Array<String> = childKeys(col, row, currentTileZoom, czoom);
                                 for (ckey in ckeys){
                                     if (ensureVisible(ckey)!=null) {
@@ -724,7 +725,7 @@ class TileGrid extends Sprite
         var d1 : Int = Std.int(Math.abs(t1.zoom - currentTileZoom));
         var d2 : Int = Std.int(Math.abs(t2.zoom - currentTileZoom));
 		return d1 < d2 ? 1 : d1 > d2 ? -1 : zoomCompare(t2, t1); // t2, t1 so that big tiles are on top of small 
-		}
+	}
     
     // for when tiles have same difference in zoom in distanceFromCurrentZoomCompare
     private static function zoomCompare(t1 : Tile, t2 : Tile) : Int
@@ -803,8 +804,8 @@ class TileGrid extends Sprite
         var scaleFactor : Float = Math.pow(2, zoom - childZoom);  // one zoom in = 0.5  
         var rowColSpan : Int = Std.int(Math.pow(2, childZoom - zoom));  // one zoom in = 2, two = 4  
         var keys : Array<String> = [];
-        for (ccol in Std.int(col / scaleFactor)...Std.int((col / scaleFactor) + rowColSpan)){
-            for (crow in Std.int(row / scaleFactor)...Std.int((row / scaleFactor) + rowColSpan)){
+        for (ccol in Std.int(col / scaleFactor)...Std.int(col / scaleFactor) + rowColSpan){
+            for (crow in Std.int(row / scaleFactor)...Std.int(row / scaleFactor + rowColSpan)){
                 keys.push(tileKey(ccol, crow, childZoom));
             }
         }
@@ -831,7 +832,6 @@ class TileGrid extends Sprite
             cast((event), MouseEvent).updateAfterEvent();
         }
         else if (event.type == Event.MOUSE_LEAVE) {
-			trace("mouse_leave");
             onRender();
 			
         }
@@ -873,12 +873,12 @@ class TileGrid extends Sprite
     }
     
     /** convenience method for tileWidth */
-    private function get_tileWidth() : Int
+    private function get_tileWidth() : Float
     {
         return _tileWidth;
     }
     /** convenience method for tileHeight */
-    private function get_tileHeight() : Int
+    private function get_tileHeight() : Float
     {
         return _tileHeight;
     }
@@ -1047,7 +1047,7 @@ class TileGrid extends Sprite
     
     private function get_zoomLevel() : Float
     {
-        return Std.int(Math.log(scale) / LN2);
+        return Math.log(scale) / LN2;
     }
     
     private function set_zoomLevel(n : Float) : Float
@@ -1353,42 +1353,36 @@ class TileGrid extends Sprite
     
     private function set_a(n : Float) : Float
     {
-			trace("grid a:" +n);
         worldMatrix.a = n;
         dirty = true;
         return n;
     }
     private function set_b(n : Float) : Float
     {
-			trace("grid b:" +n);
         worldMatrix.b = n;
         dirty = true;
         return n;
     }
     private function set_c(n : Float) : Float
     {
-		trace("grid c:" +n);
         worldMatrix.c = n;
         dirty = true;
         return n;
     }
     private function set_d(n : Float) : Float
     {
-		trace("grid d:" +n);
         worldMatrix.d = n;
         dirty = true;
         return n;
     }
     private function set_tx(n : Float) : Float
     {
-		trace("grid tx:" +n);
         worldMatrix.tx = n;
         dirty = true;
         return n;
     }
     private function set_ty(n : Float) : Float
     {
-				trace("grid ty:" +n);
         worldMatrix.ty = n;
         dirty = true;
         return n;

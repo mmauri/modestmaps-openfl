@@ -38,14 +38,14 @@ class TweenTile extends Tile
     override public function showNow() : Void
     {
         //TweenLite.killTweensOf(this);
-		Actuate.stop(this);
+		Actuate.stop(this,null,true);
         this.alpha = 1;
     }
     
     override public function destroy() : Void
     {
         //TweenLite.killTweensOf(this);
-		Actuate.stop(this);
+		Actuate.stop(this,null,false,false);
         super.destroy();
     }
 }

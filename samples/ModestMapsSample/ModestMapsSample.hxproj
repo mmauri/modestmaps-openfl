@@ -23,16 +23,16 @@
     <class path="src" />
     <class path="d:\HaxeToolkit\haxe\lib\openfl\4,5,2\externs\core\openfl" />
     <class path="d:\HaxeToolkit\haxe\lib\openfl\4,5,2\externs\extras" />
-    <class path="bin\html5\debug\haxe" />
+    <class path="bin\html5\release\haxe" />
   </classpaths>
   <!-- Build options -->
   <build>
-    <option directives="actuate=1.8.7&#xA;openfl=4.5.2&#xA;lime=3.5.2&#xA;modestmaps-openfl=0.0.0&#xA;tools=3.5.2&#xA;howlerjs&#xA;no-compilation&#xA;openfl-html5&#xA;lime-html5&#xA;html5&#xA;web&#xA;html5&#xA;display" />
+    <option directives="actuate=1.8.7&#xA;openfl=4.5.2&#xA;lime=3.5.2&#xA;modestmaps-openfl=0.0.0&#xA;tools=3.5.2&#xA;howlerjs&#xA;no-compilation&#xA;openfl-html5&#xA;lime-html5&#xA;DOM&#xA;html5&#xA;web&#xA;html5&#xA;display" />
     <option flashStrict="False" />
     <option noInlineOnDebug="False" />
     <option mainClass="ApplicationMain" />
     <option enabledebug="True" />
-    <option additional="--macro openfl._internal.utils.ExtraParams.include()&#xA;--macro lime.Lib.extraParams()&#xA;--remap flash:openfl&#xA;-dce std&#xA;-debug " />
+    <option additional="--macro openfl._internal.utils.ExtraParams.include()&#xA;--macro lime.Lib.extraParams()&#xA;--remap flash:openfl&#xA;-dce std" />
   </build>
   <!-- haxelib libraries -->
   <haxelib>

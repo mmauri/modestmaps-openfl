@@ -15,13 +15,13 @@ import com.modestmaps.core.MapExtent;
 import com.modestmaps.core.TweenTile;
 import com.modestmaps.geo.Location;
 import com.modestmaps.mapproviders.IMapProvider;
-import motion.actuators.GenericActuator;
-import motion.easing.IEasing;
-import motion.easing.Quad;
+import motion.easing.Bounce;
+import motion.easing.Elastic;
+import motion.easing.Linear;
 
-import flash.events.MouseEvent;
-import flash.geom.Matrix;
-import flash.geom.Point;
+import openfl.events.MouseEvent;
+import openfl.geom.Matrix;
+import openfl.geom.Point;
 
 //import gs.TweenLite;
 import motion.Actuate;
@@ -92,22 +92,21 @@ class TweenMap extends Map
         grid.enforceBoundsEnabled = false;
         
         grid.enforceBoundsOnMatrix(m);
-        
+		
 		//TweenLite.to(grid, duration, { a: m.a, b: m.b, c: m.c, d: m.d, tx: m.tx, ty: m.ty, onComplete: panAndZoomComplete });
 		
-		grid.setMatrix(m);
-		trace("TweenToMatrix");
-       /*Actuate.tween(grid, duration, {
-                    a : m.a,
-                    b : m.b,
-                    c : m.c,
-                    d : m.d,
-                    tx : m.tx,
-					ty : m.ty})
-					.ease(Quad.easeOut)
-					.onComplete(panAndZoomComplete);*/
+		//grid.setMatrix(m);
+       Actuate.tween(grid, duration, {
+                    a: m.a,
+					b: m.b,
+					c: m.c,
+                    d: m.d,
+					tx: m.tx,
+					ty: m.ty
+                    }).ease(Linear.easeNone)
+					.onComplete(panAndZoomComplete);
 					
-		panAndZoomComplete();	
+		//panAndZoomComplete();	
 	}
     
     /** call grid.donePanning() and grid.doneZooming(), used by tweenExtent, 
@@ -284,25 +283,27 @@ class TweenMap extends Map
         if (!__draggable || grid.panning)             return;
         
         //todo TweenLite.killTweensOf(grid);
-        Actuate.stop(grid,,true);
+        Actuate.stop(grid,null,false,false);
 		//TweenLite.killDelayedCallsTo(doneMouseWheeling);
-		Actuate.timer
 		enableOnCompleteMouseWheeling = false;
 
         var sc : Float = 0;
+		var delta:Int = event.delta;
+		//fix for openfl -> AS3 returns +3/-3 whereas openfl returns delta +100/-100
+		if (delta >= 100 || delta <= -100) delta = Std.int(delta / 33);
 		
-        if (event.delta < 0) {  
+        if (delta < 0) {  
             if (grid.zoomLevel > grid.minZoom) {
                 mouseWheelingOut = true;
                 mouseWheelingIn = false;
-                sc = Math.max(0.5, 1.0 + event.delta / 20.0);
+                sc = Math.max(0.5, 1.0 + delta / 20.0);
             }
         }
         else if (event.delta > 0) {
             if (grid.zoomLevel < grid.maxZoom) {
                 mouseWheelingIn = true;
                 mouseWheelingOut = false;
-                sc = Math.min(2.0, 1.0 + event.delta / 20.0);
+                sc = Math.min(2.0, 1.0 + delta / 20.0);
             }
         }
         
@@ -319,29 +320,22 @@ class TweenMap extends Map
         event.updateAfterEvent();
 		enableOnCompleteMouseWheeling = true;
 		Actuate.timer(0.1).onComplete(doneMouseWheeling);
-		
-		
-
-			
     }
     
     private function doneMouseWheeling() : Void
     {
 		
-		if (enableOnCompleteMouseWheeling) {
 		
+		if (enableOnCompleteMouseWheeling) {
 			var p : Point = grid.globalToLocal(new Point(stage.mouseX, stage.mouseY));
 			if (mouseWheelingIn) {
-				//trace("wheel in: " + Std.string(Math.ceil(grid.zoomLevel) - grid.zoomLevel));
 				zoomByAbout(Math.ceil(grid.zoomLevel) - grid.zoomLevel, p, panAndZoomDuration);
 
 			}
 			else if (mouseWheelingOut) {
-				//trace("wheel out: " + Std.string(Math.floor(grid.zoomLevel) - grid.zoomLevel));
 				zoomByAbout(Math.floor(grid.zoomLevel) - grid.zoomLevel, p, panAndZoomDuration);
 			}
 			else {
-				//trace("no wheel: " + Std.string(  Math.round(grid.zoomLevel) - grid.zoomLevel));
 				zoomByAbout(Math.round(grid.zoomLevel) - grid.zoomLevel, p, panAndZoomDuration);
 			}
 			mouseWheelingOut = false;
