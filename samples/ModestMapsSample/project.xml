@@ -8,8 +8,9 @@
 	<!-- output -->
 	<app main="ModestMapsSample" file="ModestMapsSample" path="bin" />
 	
-	<!--<window background="#ffffff" fps="60" vsync="false" />
-	<window width="800" height="600" unless="mobile" />
+	<window background="#ffffff" fps="60" vsync="false" />
+	
+	<!--<window width="800" height="600" unless="mobile" />
 	<window orientation="landscape" vsync="false" antialiasing="0" if="cpp" /> -->
 	
 	<!-- classpath, haxe libs -->
@@ -23,7 +24,7 @@
 	<icon path="assets/openfl.svg" />
 	
 	<!-- optimize output-->
-	<haxeflag name="-dce std" />
-	<haxedef name="canvas" />
+	<haxeflag name="-dce full" />
+	<!-- <haxedef name="" /> -->
 	
 </project>

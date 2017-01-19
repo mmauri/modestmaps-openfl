@@ -7,9 +7,8 @@ import com.modestmaps.events.MapEvent;
 import com.modestmaps.mapproviders.IMapProvider;
 import haxe.ds.StringMap;
 import haxe.ds.Vector;
-
-import openfl.display.DisplayObject;
 import openfl.display.Sprite;
+import openfl.display.DisplayObject;
 import openfl.events.Event;
 import openfl.events.MouseEvent;
 import openfl.events.ProgressEvent;
@@ -38,26 +37,26 @@ class TileGrid extends Sprite
     public var zoomLevel(get, set) : Float;
     public var scale(get, set) : Float;
     private var dirty(get, set) : Bool;
-    public var a(get, set) : Float;
-    public var b(get, set) : Float;
-    public var c(get, set) : Float;
-    public var d(get, set) : Float;
-    public var tx(get, set) : Float;
-    public var ty(get, set) : Float;
+    @:keep public var a(get, set) : Float;
+    @:keep public var b(get, set) : Float;
+    @:keep public var c(get, set) : Float;
+    @:keep public var d(get, set) : Float;
+    @:keep public var tx(get, set) : Float;
+    @:keep public var ty(get, set) : Float;
 
     // OPTIONS
     ///////////////////////////////
     
     // TODO: split these out into a TileGridOptions class and allow mass setting/getting?
     
-    private static inline var DEFAULT_MAX_PARENT_SEARCH : Int = 5;
-    private static inline var DEFAULT_MAX_PARENT_LOAD : Int = 0;  // enable this to load lower zoom tiles first  
-    private static inline var DEFAULT_MAX_CHILD_SEARCH : Int = 1;
-    private static inline var DEFAULT_MAX_TILES_TO_KEEP : Int = 256;  // 256*256*4bytes = 0.25MB ... so 256 tiles is 64MB of memory, minimum!  
-    private static inline var DEFAULT_TILE_BUFFER : Int = 1;
-    private static var DEFAULT_ENFORCE_BOUNDS : Bool = true;
-    private static var DEFAULT_ROUND_POSITIONS : Bool = true;
-    private static var DEFAULT_ROUND_SCALES : Bool = true;
+    private static inline var DEFAULT_MAX_PARENT_SEARCH = 5;
+    private static inline var DEFAULT_MAX_PARENT_LOAD  = 0;  // enable this to load lower zoom tiles first  
+    private static inline var DEFAULT_MAX_CHILD_SEARCH = 1;
+    private static inline var DEFAULT_MAX_TILES_TO_KEEP  = 256;  // 256*256*4bytes = 0.25MB ... so 256 tiles is 64MB of memory, minimum!  
+    private static inline var DEFAULT_TILE_BUFFER = 1;
+    private static inline var DEFAULT_ENFORCE_BOUNDS  = true;
+    private static inline var DEFAULT_ROUND_POSITIONS = true;
+    private static inline var DEFAULT_ROUND_SCALES  = true;
 	
 	public static inline var LN2 = 0.6931471805599453;
 	
@@ -219,7 +218,7 @@ class TileGrid extends Sprite
         
         debugField = new DebugField();
         debugField.x = mapWidth - debugField.width - 15;
-        debugField.y = mapHeight - debugField.height - 15;
+        debugField.y = mapHeight / 2 - debugField.height / 2;
         
         well = new Sprite();
         well.name = "well";
@@ -276,12 +275,12 @@ class TileGrid extends Sprite
 		 * 
 		 * @see http://norvig.com/design-patterns/img013.gif  
 		 */
-    public function setTileClass(tileClass : Class<Tile>) : Void
+    public function setTileClass(isTweenTile : Bool) : Void
     {
         // first get rid of everything, which passes tiles back to the pool
         clearEverything();
         // then assign the new class, which creates a new pool array
-        tilePainter.setTileClass(tileClass);
+        tilePainter.setTileClass(isTweenTile);
     }
     
     /** processes the tileQueue and optionally outputs stats into debugField */
@@ -290,14 +289,16 @@ class TileGrid extends Sprite
         if (debugField.parent!=null) {
             debugField.update(this, blankCount, recentlySeen.length, tilePainter);
             debugField.x = mapWidth - debugField.width - 15;
-            debugField.y = mapHeight - debugField.height - 15;
+            debugField.y = mapHeight / 2 - debugField.height / 2;
         }
     }
     
     private function onRendered() : Void
     {
         // listen out for this if you want to be sure map is in its final state before reprojecting markers etc.
-        dispatchEvent(new MapEvent(MapEvent.RENDERED,null));
+        //todo fails in flash with dce full  dispatchEvent(new MapEvent(MapEvent.RENDERED,null));
+		dispatchEvent(new MapEvent(MapEvent.RENDERED,null));
+		
     }
     
     private function onPanned() : Void
@@ -323,7 +324,9 @@ class TileGrid extends Sprite
     
     private function onBeginTileLoading(event : MapEvent) : Void
     {
-        dispatchEvent(event);
+        
+		//todo failing in flash with DCE full  dispatchEvent(event)
+		dispatchEvent(new MapEvent(MapEvent.BEGIN_TILE_LOADING, null));
     }
     
     private function onProgress(event : ProgressEvent) : Void
@@ -334,7 +337,8 @@ class TileGrid extends Sprite
     
     private function onAllTilesLoaded(event : MapEvent) : Void
     {
-        dispatchEvent(event);
+        //todo DCE full fails in flashdispatchEvent(event);
+		dispatchEvent(new MapEvent(MapEvent.ALL_TILES_LOADED, null));
         // request redraw to take parent and child tiles off the stage if we haven't already
         dirty = true;
     }
@@ -418,7 +422,6 @@ class TileGrid extends Sprite
         // the 'least recently seen' tiles will be removed from the tileCache below
         for (visibleTile in visibleTiles){
             if (tilePainter.isPainted(visibleTile)) {
-                //var ri : Int = Lambda.indexOf(recentlySeen, visibleTile.name);
 				var ri:Int = recentlySeen.indexOf(visibleTile.name);
                 if (ri >= 0) {
                     recentlySeen.splice(ri, 1);
@@ -774,7 +777,7 @@ class TileGrid extends Sprite
     private static var zoomLetter : Array<String> = "abcdefghijklmnopqrstuvwxyz".split("");
     
     /** zoom is translated into a letter so that keys can easily be sorted (alphanumerically) by zoom level */
-    private function tileKey(col : Int, row : Int, zoom : Int) : String
+    private inline function tileKey(col : Int, row : Int, zoom : Int) : String
     {
         return zoomLetter[zoom] + ":" + col + ":" + row;
     }
@@ -1059,7 +1062,7 @@ class TileGrid extends Sprite
         return n;
     }
     
-    private function get_scale() : Float
+    private inline function get_scale() : Float
     {
         return Math.sqrt(worldMatrix.a * worldMatrix.a + worldMatrix.b * worldMatrix.b);
     }
@@ -1104,7 +1107,7 @@ class TileGrid extends Sprite
             scrollRect = new Rectangle(0, 0, mapWidth, mapHeight);
             
             debugField.x = mapWidth - debugField.width - 15;
-            debugField.y = mapHeight - debugField.height - 15;
+            debugField.y = mapHeight / 2 - debugField.height / 2;
             
             dirty = true;
             
@@ -1326,62 +1329,62 @@ class TileGrid extends Sprite
         dirty = true;
     }
     
-    private function get_a() : Float
+    @:keep private inline function get_a() : Float
     {
         return worldMatrix.a;
     }
-    private function get_b() : Float
+    @:keep private inline function get_b() : Float
     {
         return worldMatrix.b;
     }
-    private function get_c() : Float
+    @:keep private inline function get_c() : Float
     {
         return worldMatrix.c;
     }
-    private function get_d() : Float
+    @:keep private inline function get_d() : Float
     {
         return worldMatrix.d;
     }
-    private function get_tx() : Float
+    @:keep private inline function get_tx() : Float
     {
         return worldMatrix.tx;
     }
-    private function get_ty() : Float
+    @:keep private inline function get_ty() : Float
     {
         return worldMatrix.ty;
     }
     
-    private function set_a(n : Float) : Float
+    @:keep private inline function set_a(n : Float) : Float
     {
         worldMatrix.a = n;
         dirty = true;
         return n;
     }
-    private function set_b(n : Float) : Float
+    @:keep private inline function set_b(n : Float) : Float
     {
         worldMatrix.b = n;
         dirty = true;
         return n;
     }
-    private function set_c(n : Float) : Float
+    @:keep private inline function set_c(n : Float) : Float
     {
         worldMatrix.c = n;
         dirty = true;
         return n;
     }
-    private function set_d(n : Float) : Float
+    @:keep private inline function set_d(n : Float) : Float
     {
         worldMatrix.d = n;
         dirty = true;
         return n;
     }
-    private function set_tx(n : Float) : Float
+    @:keep private inline function set_tx(n : Float) : Float
     {
         worldMatrix.tx = n;
         dirty = true;
         return n;
     }
-    private function set_ty(n : Float) : Float
+    @:keep private inline function set_ty(n : Float) : Float
     {
         worldMatrix.ty = n;
         dirty = true;
@@ -1390,14 +1393,11 @@ class TileGrid extends Sprite
 }
 
 
-
-
-
 class DebugField extends TextField
 {
     // for stats:
     private var lastFrameTime : Float;
-    private var fps : Float = 30;
+    private var fps : Float = 60;
     
     public function new()
     {
@@ -1434,7 +1434,7 @@ class DebugField extends TextField
         
 		
         //this.text = "tx: " + grid.tx.toFixed(3) + "\nty: " + grid.ty.toFixed(3) + "\nsc: " + grid.scale.toFixed(4) + "\nfps: " + fps.toFixed(0) + "\ncurrent child count: " + well.numChildren + "\ncurrent child of tile count: " + tileChildren + "\nvisible tile count: " + grid.getVisibleTiles().length + "\nblank count: " + blankCount + "\nrecently used tiles: " + recentCount + "\ntiles created: " + Tile.count + "\nqueue length: " + tilePainter.getQueueCount() + "\nrequests: " + tilePainter.getRequestCount() + "\nfinished (cached) tiles: " + tilePainter.getCacheSize() + "\ncachedLoaders: " + tilePainter.getLoaderCacheCount() + "\nmemory: " + (System.totalMemory / 1048576).toFixed(1) + "MB";
-        this.text = "tx: " + grid.tx + "\nty: " + grid.ty + "\nsc: " + grid.scale + "\nfps: " + fps + "\ncurrent child count: " + well.numChildren + "\ncurrent child of tile count: " + tileChildren + "\nvisible tile count: " + grid.getVisibleTiles().length + "\nblank count: " + blankCount + "\nrecently used tiles: " + recentCount + "\ntiles created: " + Tile.count + "\nqueue length: " + tilePainter.getQueueCount() + "\nrequests: " + tilePainter.getRequestCount() + "\nfinished (cached) tiles: " + tilePainter.getCacheSize() + "\ncachedLoaders: " + tilePainter.getLoaderCacheCount() + "\nmemory: " + (System.totalMemory / 1048576) + "MB";
+        this.text = "tx: " + grid.tx + "\nty: " + grid.ty + "\nsc: " + grid.scale + "\nfps: " + Std.int(fps) + "\ncurrent child count: " + well.numChildren + "\ncurrent child of tile count: " + tileChildren + "\nvisible tile count: " + grid.getVisibleTiles().length + "\nblank count: " + blankCount + "\nrecently used tiles: " + recentCount + "\ntiles created: " + Tile.count + "\nqueue length: " + tilePainter.getQueueCount() + "\nrequests: " + tilePainter.getRequestCount() + "\nfinished (cached) tiles: " + tilePainter.getCacheSize() + "\ncachedLoaders: " + tilePainter.getLoaderCacheCount() + "\nmemory: " + Std.int(System.totalMemory / 1048576) + "MB";
         
 		width = textWidth + 8;
         height = textHeight + 4;

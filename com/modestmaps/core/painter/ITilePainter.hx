@@ -10,7 +10,7 @@ import openfl.events.IEventDispatcher;
 interface ITilePainter extends IEventDispatcher
 {
 
-    function setTileClass(tileClass : Class<Tile>) : Void;
+    function setTileClass(isTweenTile : Bool) : Void;
 	function setMapProvider(provider : IMapProvider) : Void;
 	function getTileFromCache(key : String) : Tile;
 	function retainKeysInCache(recentlySeen : Array<String>) : Void;

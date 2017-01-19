@@ -15,16 +15,13 @@ import com.modestmaps.core.MapExtent;
 import com.modestmaps.core.TweenTile;
 import com.modestmaps.geo.Location;
 import com.modestmaps.mapproviders.IMapProvider;
-import motion.easing.Bounce;
-import motion.easing.Elastic;
-import motion.easing.Linear;
 
 import openfl.events.MouseEvent;
 import openfl.geom.Matrix;
 import openfl.geom.Point;
 
-//import gs.TweenLite;
 import motion.Actuate;
+import motion.easing.Linear;
 import motion.easing.Quad;
 
 class TweenMap extends Map
@@ -64,7 +61,7 @@ class TweenMap extends Map
     public function new(width : Float = 320, height : Float = 240, draggable : Bool = true, provider : IMapProvider = null, rest : Array<Dynamic> = null)
     {
         super(width, height, draggable, provider, rest);
-        grid.setTileClass(TweenTile);
+        grid.setTileClass(true);
 		//addChild(grid.debugField);
     }
     
@@ -343,6 +340,10 @@ class TweenMap extends Map
 			enableOnCompleteMouseWheeling = false;
 		}
     }
+/*	override public function onGestureZoom(event : TransformGestureEvent) : Void {
+		var a = 0;
+		trace(event.toString);
+	}*/
 }
 
 

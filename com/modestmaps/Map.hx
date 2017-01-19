@@ -30,15 +30,17 @@ import com.modestmaps.geo.Location;
 import com.modestmaps.events.MapEvent;
 import com.modestmaps.core.MapExtent;
 import com.modestmaps.core.TileGrid;
+import com.modestmaps.mapproviders.IMapProvider;
 import com.modestmaps.mapproviders.OpenStreetMapProvider;
+import com.modestmaps.overlays.MarkerClip;
 import openfl.errors.Error;
+import openfl.events.TouchEvent;
+
 
 import com.modestmaps.core.*;
 import com.modestmaps.events.*;
 import com.modestmaps.geo.*;
-import com.modestmaps.mapproviders.IMapProvider;
-import com.modestmaps.mapproviders.microsoft.MicrosoftProvider;
-import com.modestmaps.overlays.MarkerClip;
+
 
 import openfl.display.DisplayObject;
 import openfl.display.Sprite;
@@ -803,6 +805,11 @@ class Map extends Sprite
             previousWheelEvent = Math.round(haxe.Timer.stamp() * 1000);
         }
     }
+	
+/*	public function onGestureZoom(event : flash.events.TransformGestureEvent) : Void
+	{
+		var a = 0;
+	}*/
 }
 
 

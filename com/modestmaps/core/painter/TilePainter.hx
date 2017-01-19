@@ -81,7 +81,7 @@ class TilePainter extends EventDispatcher implements ITilePainter
         
         // TODO: pass all these into the constructor so they can be shared, swapped out or overridden
         this.tileQueue = new TileQueue();
-        this.tilePool = new TilePool(Tile);
+        this.tilePool = new TilePool();
         this.tileCache = new TileCache(tilePool);
         queueTimer = new Timer(200);
         
@@ -97,10 +97,10 @@ class TilePainter extends EventDispatcher implements ITilePainter
 		 * 
 		 * @see http://norvig.com/design-patterns/img013.gif  
 		 */
-    public function setTileClass(tileClass : Class<Tile>) : Void
+    public function setTileClass(isTweenTile : Bool) : Void
     {
         // assign the new class, which creates a new pool array
-        tilePool.setTileClass(tileClass);
+        tilePool.setTileClass(isTweenTile);
     }
     
     public function setMapProvider(provider : IMapProvider) : Void

@@ -1,7 +1,12 @@
 package;
 import com.modestmaps.Map;
 import com.modestmaps.TweenMap;
-import com.modestmaps.mapproviders.CartoDBProvider.CARTODB_MAPTYPE;
+import openfl.display.DisplayObject;
+import openfl.display.DisplayObjectContainer;
+import openfl.events.TouchEvent;
+import openfl.geom.Matrix;
+import openfl.ui.Multitouch;
+import openfl.ui.MultitouchInputMode;
 
 import openfl.utils.Object;
 import com.modestmaps.core.MapExtent;
@@ -14,9 +19,9 @@ import com.modestmaps.extras.NavigatorWindow;
 import com.modestmaps.extras.ZoomBox;
 import com.modestmaps.extras.ZoomSlider;
 import com.modestmaps.geo.Location;
-import com.modestmaps.mapproviders.*;
-import com.modestmaps.mapproviders.microsoft.*;
-import com.modestmaps.mapproviders.yahoo.*;
+import com.modestmaps.mapproviders.OpenStreetMapProvider;
+import com.modestmaps.mapproviders.CartoDBProvider;
+import com.modestmaps.mapproviders.CartoDBProvider.CARTODB_MAPTYPE;
 
 
 import openfl.display.Sprite;
@@ -44,6 +49,10 @@ import openfl.text.TextFormat;
 class ModestMapsSample extends Sprite
 {
 	// Our modest map
+
+	
+
+	
 	private var map:TweenMap;
 	
 	// a tooltip/flag that appears on marker rollover
@@ -64,11 +73,12 @@ class ModestMapsSample extends Sprite
 	public function new() 
 	{
 		super();
+	
 		// setup stage
 		stage.scaleMode = StageScaleMode.NO_SCALE;
 		stage.align = StageAlign.TOP_LEFT;
 
-		
+
 		//MacMouseWheel.setup(stage);
 		
 		// create child components
@@ -123,6 +133,12 @@ class ModestMapsSample extends Sprite
 		map.addEventListener(MarkerEvent.MARKER_ROLL_OVER, onMarkerRollOver);
 		map.addEventListener(MarkerEvent.MARKER_ROLL_OUT, onMarkerRollOut);
 		
+		//gestures
+		//if (Multitouch.supportsGestureEvents) {
+			//Multitouch.inputMode = MultitouchInputMode.GESTURE;
+			//map.addEventListener(flash.events.TransformGestureEvent.GESTURE_ZOOM , map.onGestureZoom);
+		//}
+		
 		// add some controls using the MapControls extra
 		// we're adding them as children of map so they move with the map
 		map.addChild(new MapControls(map));	            
@@ -172,7 +188,7 @@ class ModestMapsSample extends Sprite
 		// listen for map provider button clicks	      
 		mapButtons.addEventListener(MouseEvent.CLICK, onProviderButtonClick);
 		
-		//map.addChild(map.grid.debugField);
+		map.addChild(map.grid.debugField);
 		
 		// add children to the display list
 		addChild(map);

@@ -55,7 +55,6 @@ class TileQueue
         var i : Int = queue.length - 1;
         while (i >= 0){
             var tile : Tile = queue[i];
-            //if (Lambda.indexOf(tiles, tile) < 0) {
 			if (tiles.indexOf(tile)<0) {
                 removed.push(tile);
                 queue.splice(i, 1);

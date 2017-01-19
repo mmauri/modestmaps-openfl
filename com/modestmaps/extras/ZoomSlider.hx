@@ -7,7 +7,7 @@ import openfl.errors.Error;
 import openfl.display.Sprite;
 import openfl.events.Event;
 import openfl.events.MouseEvent;
-//todo import openfl.filters.BevelFilter;
+//import flash.filters.BevelFilter;
 import openfl.filters.BitmapFilterType;
 import openfl.filters.DropShadowFilter;
 import openfl.geom.Point;
@@ -46,7 +46,7 @@ class ZoomSlider extends Sprite
         this.y = 15;
         
         track = new Sprite();
-        //todo track.filters = [new BevelFilter(4, 45, 0xffffff, 0.2, 0x000000, 0.2, 4, 4, 1, 1, BitmapFilterType.INNER, false)];
+        //track.filters = [new BevelFilter(4, 45, 0xffffff, 0.2, 0x000000, 0.2, 4, 4, 1, 1, BitmapFilterType.INNER, false)];
         track.addEventListener(MouseEvent.CLICK, onTrackClick);
         track.buttonMode = track.useHandCursor = true;
         track.graphics.lineStyle(5, 0xd9c588);

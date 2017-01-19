@@ -2,6 +2,7 @@ package com.modestmaps.extras.ui;
 
 
 
+import openfl.display.SimpleButton;
 import openfl.display.Sprite;
 import openfl.events.MouseEvent;
 import openfl.geom.ColorTransform;

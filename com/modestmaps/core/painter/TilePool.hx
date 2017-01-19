@@ -3,6 +3,7 @@ package com.modestmaps.core.painter;
 //import com.modestmaps.core.painter.TileClass;
 
 import com.modestmaps.core.Tile;
+import com.modestmaps.core.TweenTile;
 
 /** 
 	 *  This post http://lab.polygonal.de/2008/06/18/using-object-pools/
@@ -19,25 +20,32 @@ class TilePool
     private static inline var MAX_NEW_TILES : Int = 256;
     
     private var pool : Array<Tile> = [];
-    private var tileClass : Class<Dynamic>;
+    private var isTweenTile : Bool;
     
-    public function new(tileClass : Class<Dynamic>)
+    public function new()
     {
-        this.tileClass = tileClass;
+		//let's make the TweenTile bu default.
+        this.isTweenTile = true;
     }
     
-    public function setTileClass(tileClass : Class<Dynamic>) : Void
+    public function setTileClass(isTweenTile: Bool) : Void
     {
-        this.tileClass = tileClass;
+        this.isTweenTile = isTweenTile;
         pool = [];
     }
     
     public function getTile(column : Int, row : Int, zoom : Int) : Tile
     {
         if (pool.length < MIN_POOL_SIZE) {
-            while (pool.length < MAX_NEW_TILES){
-                pool.push(Type.createInstance(tileClass, [0, 0, 0]));
-            }
+			if (isTweenTile) {
+				while (pool.length < MAX_NEW_TILES){
+					pool.push(new TweenTile(0,0,0));
+				}
+			} else {
+				while (pool.length < MAX_NEW_TILES){
+					pool.push(new Tile(0,0,0));
+				}			
+			}
         }
         var tile : Tile = pool.pop();
         tile.init(column, row, zoom);
