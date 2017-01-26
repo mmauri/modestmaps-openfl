@@ -5,17 +5,17 @@ import openfl.display.JointStyle;
 import openfl.display.LineScaleMode;
 import openfl.display.Shape;
 import openfl.display.StageDisplayState;
-import openfl.events.Event;
 import openfl.errors.Error;
-#if flash
-import flash.events.FullScreenEvent;
-import flash.ui.ContextMenu;
-import flash.ui.ContextMenuItem;
-#end
 import openfl.events.ContextMenuEvent;
+import openfl.events.Event;
+#if flash
+	import flash.events.FullScreenEvent;
+	import flash.ui.ContextMenu;
+	import flash.ui.ContextMenuItem;
+#end
 
 class FullScreenButton extends Button
-{	
+{
 	private var outIcon:Shape = new Shape();
 	private var inIcon:Shape = new Shape();
 
@@ -60,18 +60,18 @@ class FullScreenButton extends Button
 		inIcon.graphics.lineTo(11,11);
 		inIcon.graphics.lineTo(15,12);
 		addChild(inIcon);
-		
+
 		addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
 	}
 
 	/**
-	 * 
+	 *
 	 * @param	event
 	 */
 	private function onAddedToStage(event:Event):Void
 	{
 		stage.addEventListener(FullScreenEvent.FULL_SCREEN, onFullScreenEvent);
-		
+
 		// create the context menu, remove the built-in items,
 		// and add our custom items
 		var fullScreenCM:ContextMenu = new ContextMenu();
@@ -84,18 +84,19 @@ class FullScreenButton extends Button
 		var xfs:ContextMenuItem = new ContextMenuItem("Exit Full Screen");
 		xfs.addEventListener(ContextMenuEvent.MENU_ITEM_SELECT, exitFullScreen);
 		fullScreenCM.customItems.push(xfs);
-		
+
 		// finally, attach the context menu to the parent
 		this.parent.contextMenu = fullScreenCM;
 	}
 
 	/**
-	 * 
+	 *
 	 * @param	event
 	 */
 	public function toggleFullScreen(event:Event=null):Void
 	{
-		if (stage.displayState == StageDisplayState.FULL_SCREEN) {
+		if (stage.displayState == StageDisplayState.FULL_SCREEN)
+		{
 			exitFullScreen();
 		}
 		else {
@@ -105,7 +106,7 @@ class FullScreenButton extends Button
 
 	/**
 	* Function to enter and leave full screen mode
-	* 
+	*
 	* @param event
 	*/
 	public function goFullScreen(event:Event=null):Void
@@ -113,12 +114,13 @@ class FullScreenButton extends Button
 		try {
 			stage.displayState = StageDisplayState.FULL_SCREEN;
 		}
-		catch(err:Error) {
+		catch (err:Error)
+		{
 			trace("Dang fullScreen is not allowed here");
 		}
 	}
 	/**
-	* 
+	*
 	* @param event
 	*/
 	public function exitFullScreen(event:Event=null):Void
@@ -126,7 +128,8 @@ class FullScreenButton extends Button
 		try {
 			stage.displayState = StageDisplayState.NORMAL;
 		}
-		catch(err:Error) {
+		catch (err:Error)
+		{
 			trace("Problem setting displayState to normal, sorry");
 		}
 	}
@@ -134,17 +137,19 @@ class FullScreenButton extends Button
 	/**
 	* Function to enable and disable the context menu items,
 	* based on what mode we are in.
-	* 
+	*
 	* @param event
 	*/
 	public function onFullScreenEvent(event:Event):Void
 	{
 		if (stage.displayState == StageDisplayState.FULL_SCREEN)
 		{
-			if (contains(outIcon)) {
+			if (contains(outIcon))
+			{
 				removeChild(outIcon);
 			}
-			if (!contains(inIcon)) {
+			if (!contains(inIcon))
+			{
 				addChild(inIcon);
 			}
 			this.parent.contextMenu.customItems[0].enabled = false;
@@ -152,14 +157,16 @@ class FullScreenButton extends Button
 		}
 		else
 		{
-			if (!contains(outIcon)) {
+			if (!contains(outIcon))
+			{
 				addChild(outIcon);
 			}
-			if (contains(inIcon)) {
+			if (contains(inIcon))
+			{
 				removeChild(inIcon);
 			}
 			this.parent.contextMenu.customItems[0].enabled = true;
 			this.parent.contextMenu.customItems[1].enabled = false;
 		}
-	}	
+	}
 }

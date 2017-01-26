@@ -4,23 +4,22 @@
  */
 package com.modestmaps.util;
 
-import openfl.utils.ByteArray;
- 
-class BinaryUtil 
+
+class BinaryUtil
 {
 	private static var PADDING:String = "00000000000000000000000000000000";
 
 	/**
-	 * NB:- don't use int.toString(2) here because it 
+	 * NB:- don't use int.toString(2) here because it
 	 * doesn't do what we want with negative numbers - which is
-	 * wrap around and pad with 1's. Hence convert to uint first. 
-	 * 
+	 * wrap around and pad with 1's. Hence convert to uint first.
+	 *
 	 * @param numberToConvert
 	 * @return 32 digit binary representation (eg : 1011)
 	 */
-	public static function convertToBinary(numberToConvert:Int):String 
-	{	
-		var result:String = decimalToBinary(numberToConvert);		
+	public static function convertToBinary(numberToConvert:Int):String
+	{
+		var result:String = decimalToBinary(numberToConvert);
 		if (result.length < 32)
 		{
 			result = PADDING.substr(result.length) + result;
@@ -29,7 +28,7 @@ class BinaryUtil
 	}
 
 	/**
-	 * 
+	 *
 	 * @param	binaryRepresentation : binary string representation (eg : 1011)
 	 * @return
 	 */
@@ -38,9 +37,9 @@ class BinaryUtil
 		var result:Int = binaryToDecimal(binaryRepresentation);
 		return result;
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * @param	decimalValue
 	 * @return
 	 */
@@ -50,27 +49,27 @@ class BinaryUtil
 		var result:String = stringBinary.toString();
 		return result;
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * @param	binaryRepresentation
 	 * @return
 	 */
 	private static function binaryToDecimal(binaryRepresentation:String):Int
-	{			
+	{
 		var result : Float = 0;
 		for (i in 0 ... binaryRepresentation.length)
 		{
 			if (binaryRepresentation.charAt(i) == '1')
 			{
-				result = result + Math.pow(2, binaryRepresentation.length - 1 - i);				
+				result = result + Math.pow(2, binaryRepresentation.length - 1 - i);
 			}
 		}
 		return Std.int(result);
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * @param	binaryRepresentation
 	 * @return
 	 */
@@ -79,5 +78,5 @@ class BinaryUtil
 		var binaryToIntRepresentation : Int = binaryToDecimal(binaryRepresentation);
 		return '0x' + StringTools.hex(binaryToIntRepresentation);
 	}
-	
+
 }

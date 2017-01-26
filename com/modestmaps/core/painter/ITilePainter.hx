@@ -4,8 +4,8 @@ package com.modestmaps.core.painter;
 import com.modestmaps.core.Coordinate;
 import com.modestmaps.core.Tile;
 import com.modestmaps.mapproviders.IMapProvider;
-
 import openfl.events.IEventDispatcher;
+
 
 interface ITilePainter extends IEventDispatcher
 {
