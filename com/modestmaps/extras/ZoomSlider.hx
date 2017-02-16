@@ -9,7 +9,7 @@ import openfl.events.MouseEvent;
 import openfl.filters.DropShadowFilter;
 import openfl.geom.Point;
 import openfl.geom.Rectangle;
-//import flash.filters.BevelFilter;
+
 
 /** This is an example of a slider that modifies the zoom level of the given map.
 	 *
@@ -45,6 +45,7 @@ class ZoomSlider extends Sprite
 
 		track = new Sprite();
 		//track.filters = [new BevelFilter(4, 45, 0xffffff, 0.2, 0x000000, 0.2, 4, 4, 1, 1, BitmapFilterType.INNER, false)];
+		track.filters = [new DropShadowFilter()];
 		track.addEventListener(MouseEvent.CLICK, onTrackClick);
 		track.buttonMode = track.useHandCursor = true;
 		track.graphics.lineStyle(5, 0xd9c588);
@@ -61,6 +62,7 @@ class ZoomSlider extends Sprite
 
 		thumb = new Sprite();
 		//todo thumb.filters = [new BevelFilter(4, 45, 0xffffff, 0.2, 0x000000, 0.2, 0, 0, 1, 1, BitmapFilterType.INNER, false)];
+		thumb.filters = [new DropShadowFilter()];
 		thumb.addEventListener(MouseEvent.MOUSE_DOWN, onThumbMouse);
 		thumb.buttonMode = thumb.useHandCursor = true;
 		thumb.graphics.beginFill(0xff8080);
@@ -77,12 +79,6 @@ class ZoomSlider extends Sprite
 	{
 		var p : Point = globalToLocal(new Point(event.stageX, event.stageY));
 		thumb.y = p.y;
-
-		//todo tweenlite marc
-		/*TweenLite.to(map.grid, 0.25, {
-		            zoomLevel : Math.round(map.grid.minZoom + (map.grid.maxZoom - map.grid.minZoom) * (1 - proportion))
-
-		        });*/
 		Actuate.tween(map.grid,0.25,{
 			zoomLevel : Math.round(map.grid.minZoom + (map.grid.maxZoom - map.grid.minZoom) * (1 - proportion))
 		});
@@ -106,10 +102,6 @@ class ZoomSlider extends Sprite
 		{
 			thumb.stopDrag();
 			dragging = false;
-			//todo TweenLite.to(map.grid, 0.1, {
-			//            zoomLevel : Math.round(map.grid.zoomLevel)
-
-			//        });
 			Actuate.tween(map.grid, 0.1,
 			{
 				zoomLevel : Math.round(map.grid.zoomLevel)

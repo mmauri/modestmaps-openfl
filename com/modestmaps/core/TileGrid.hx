@@ -109,8 +109,8 @@ class TileGrid extends Sprite
 	private var maxTy : Float;
 
 	// read-only, convenience for tileWidth/Height
-	private var _tileWidth : Float;
-	private var _tileHeight : Float;
+	private var _tileWidth : Int;
+	private var _tileHeight : Int;
 
 	// pan and zoom etc are stored in here
 	// NB: this matrix is never applied to a DisplayObject's transform
@@ -171,8 +171,8 @@ class TileGrid extends Sprite
 	private var startZoom : Float = -1;
 	public var zooming : Bool;
 
-	private var mapWidth : Float;
-	private var mapHeight : Float;
+	private var mapWidth : Int;
+	private var mapHeight : Int;
 
 	private var draggable : Bool;
 
@@ -182,7 +182,7 @@ class TileGrid extends Sprite
 	// setting to true will dispatch a CHANGE event which Map will convert to an EXTENT_CHANGED for us
 	private var matrixChanged : Bool = false;
 
-	public function new(w : Float, h : Float, draggable : Bool, provider : IMapProvider)
+	public function new(w : Int, h : Int, draggable : Bool, provider : IMapProvider)
 	{
 		super();
 		doubleClickEnabled = true;
@@ -1157,8 +1157,8 @@ class TileGrid extends Sprite
 			tx += dx / 2;
 			ty += dy / 2;
 
-			mapWidth = p.x;
-			mapHeight = p.y;
+			mapWidth = Std.int(p.x);
+			mapHeight = Std.int(p.y);
 			scrollRect = new Rectangle(0, 0, mapWidth, mapHeight);
 
 			debugField.x = mapWidth - debugField.width - 15;

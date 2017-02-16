@@ -55,7 +55,7 @@ class TweenMap extends Map
 	    *
 	    * @see com.modestmaps.core.TileGrid
 	    */
-	public function new(width : Float = 320, height : Float = 240, draggable : Bool = true, provider : IMapProvider = null, rest : Array<Dynamic> = null)
+	public function new(width : Int = 320, height : Int = 240, draggable : Bool = true, provider : IMapProvider = null, rest : Array<Dynamic> = null)
 	{
 		super(width, height, draggable, provider, rest);
 		grid.setTileClass(true);

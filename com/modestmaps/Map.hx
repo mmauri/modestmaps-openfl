@@ -83,8 +83,8 @@ class Map extends Sprite
 {
 	public var size(get, set) : Point;
 
-	private var mapWidth : Float;
-	private var mapHeight : Float;
+	private var mapWidth : Int;
+	private var mapHeight : Int;
 	private var __draggable : Bool = true;
 
 	/** das grid */
@@ -100,7 +100,7 @@ class Map extends Sprite
 		 * @default 0.333333333
 		 */
 	private var panFraction : Float = 0.333333333;
-	private static inline var LN2 = 0.6931471805599453;
+	public static inline var LN2 = 0.6931471805599453;
 
 	/**
 	    * Initialize the map: set properties, add a tile grid, draw it.
@@ -114,7 +114,7 @@ class Map extends Sprite
 	    *
 	    * @see com.modestmaps.core.TileGrid
 	    */
-	public function new(width : Float = 320, height : Float = 240, draggable : Bool = true,
+	public function new(width : Int = 320, height : Int = 240, draggable : Bool = true,
 						mapProvider : IMapProvider = null, rest : Array<Dynamic> = null)
 	{
 		super();
@@ -364,7 +364,7 @@ class Map extends Sprite
 	    *
 	    * @see com.modestmaps.events.MapEvent.RESIZED
 	    */
-	public function setSize(w : Float, h : Float) : Void
+	public function setSize(w : Int, h : Int) : Void
 	{
 		if (w != mapWidth || h != mapHeight)
 		{
@@ -397,18 +397,18 @@ class Map extends Sprite
 
 	private function set_size(value : Point) : Point
 	{
-		setSize(value.x, value.y);
+		setSize(Std.int(value.x), Std.int(value.y));
 		return value;
 	}
 
 	/** Get map width. */
-	public function getWidth() : Float
+	public function getWidth() : Int
 	{
 		return mapWidth;
 	}
 
 	/** Get map height. */
-	public function getHeight() : Float
+	public function getHeight() : Int
 	{
 		return mapHeight;
 	}

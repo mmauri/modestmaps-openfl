@@ -1,4 +1,3 @@
-
 import com.adobe.viewsource.ViewSource;
 import com.modestmaps.Map;
 import com.modestmaps.TweenMap;

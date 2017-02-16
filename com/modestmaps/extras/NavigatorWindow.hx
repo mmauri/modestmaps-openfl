@@ -57,8 +57,8 @@ class NavigatorWindow extends Sprite
 
 	/** create a new navigator window with optional size and style parameters */
 	public function new(map : Map,
-						navWidth : Float = 128,
-						navHeight : Float = 128,
+						navWidth : Int = 128,
+						navHeight : Int = 128,
 						navBorder : Float = 5,
 						navBorderColor : Int = 0xffffff,
 						boxLineThickness : Float = 0,

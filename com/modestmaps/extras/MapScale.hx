@@ -79,8 +79,9 @@ class MapScale extends Sprite
 			var metersPerPixel : Float = d / pixelWidth;
 
 			// powers of ten, two?
-			//var nearestPower:Number = Math.pow(2, Math.round(Math.log(d) / Math.LN2));
-			var nearestPower : Float = parseFloat(d.toPrecision(1));
+			var nearestPower:Float = Math.pow(2, Math.round(Math.log(d) / Map.LN2));
+			//var nearestPower : Float = Std.parseFloat(d.toPrecision(1));
+
 
 			var pixels : Float = nearestPower / metersPerPixel;
 
@@ -89,11 +90,11 @@ class MapScale extends Sprite
 			graphics.drawRect(0, i * 12, pixels, 5);
 
 			var decDigits : Int = nearestPower < (1) ? 2 : 0;
-			var unit : String = nearestPower.toFixed(decDigits) == ("1") ? barParams[i].unit : barParams[i].units;
+			var unit : String = toFixed(nearestPower,decDigits) == ("1") ? barParams[i].unit : barParams[i].units;
 
 			var field : TextField = barParams[i].field;
 
-			field.text = nearestPower.toFixed(decDigits) + " " + unit;
+			field.text = toFixed(nearestPower,decDigits) + " " + unit;
 			field.width = field.textWidth + 4;
 			field.height = field.textHeight + 4;
 
@@ -108,5 +109,11 @@ class MapScale extends Sprite
 	{
 		this.x = 15 + offsetX;
 		this.y = map.getHeight() - this.height - 6;
+	}
+	
+	private static function toFixed(x:Float, decimalPlaces:Int):String 
+	{ 
+		var f = Reflect.field(x, "toFixed"); 
+		return Reflect.callMethod(x, f, [decimalPlaces]); 
 	}
 }

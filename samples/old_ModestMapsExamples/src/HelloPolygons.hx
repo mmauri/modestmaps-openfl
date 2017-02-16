@@ -40,7 +40,7 @@ class HelloPolygons extends Sprite
         
         var polygonClip : PolygonClip = new PolygonClip(map);
         
-        var locations : Array<Dynamic> = [new Location(37.83435, 21.36860), 
+        var locations : Array<Location> = [new Location(37.83435, 21.36860), 
         new Location(37.83435, 21.58489), 
         new Location(37.78105, 21.58489), 
         new Location(37.78105, 21.36860)];

@@ -54,7 +54,7 @@ class HelloHeatmap extends Sprite
         map.addEventListener(MouseEvent.DOUBLE_CLICK, map.onDoubleClick);
         addChild(map);
         
-        var locations : Array<Dynamic> = [];
+        var locations : Array<Location> = [];
         for (i in 0...2048){
             var w : Float = 3.0 * (Math.random() - 0.5);
             var h : Float = 3.0 * (Math.random() - 0.5);

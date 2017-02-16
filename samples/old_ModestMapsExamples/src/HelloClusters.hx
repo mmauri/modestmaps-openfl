@@ -100,7 +100,10 @@ class HelloClusters extends Sprite
                 var cluster : Dynamic;
                 for (i in 0...this.features.length){
                     feature = this.features[i];
-                    if (!extent.contains(feature.location))                         {++i;continue;
+                    if (!extent.contains(feature.location))                         
+					{
+						++i;
+						continue;
                     };
                     clustered = false;
                     for (j in 0...clusters.length){

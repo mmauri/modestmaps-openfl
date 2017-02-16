@@ -1,7 +1,7 @@
 /**
- * MapProvider for Open Street Map data.
+ * MapProvider for Carto
  *
- * @author migurski
+ * @author Marc Mauri
  * $Id$
  */
 package com.modestmaps.mapproviders;

@@ -25,6 +25,6 @@
 	
 	<!-- optimize output-->
 	<haxeflag name="-dce full" />
-	<!-- <haxedef name="" /> -->
+	<!--<haxedef name="analyzer-optimize" /> -->
 	
 </project>

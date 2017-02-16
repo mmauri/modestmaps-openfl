@@ -16,8 +16,6 @@ import openfl.events.MouseEvent;
 import openfl.geom.Point;
 
 
-//import openfl.utils.Dictionary;
-
 @:meta(Event(name="markerRollOver",type="com.modestmaps.events.MarkerEvent"))
 
 @:meta(Event(name="markerRollOut",type="com.modestmaps.events.MarkerEvent"))
@@ -484,6 +482,7 @@ class MarkerClip extends Sprite
 	    */
 	private function onMarkerRollOver(event : MouseEvent) : Void
 	{
+		trace("rollover marker clip");
 		var marker : DisplayObject = cast(event.target, DisplayObject);
 		var location : Location = getMarkerLocation(marker);
 		dispatchEvent(new MarkerEvent(MarkerEvent.MARKER_ROLL_OVER, marker, location, true));

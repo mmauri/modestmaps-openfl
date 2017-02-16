@@ -24,8 +24,8 @@ class PolygonMarker extends Sprite implements Redrawable
 
 	public var zoomTolerance : Float = 4;
 
-	public var locations : Array<Dynamic>;
-	private var coordinates : Array<Dynamic>;  // cached after converting locations with the map provider
+	public var locations : Array<Location>;
+	private var coordinates : Array<Coordinate>;  // cached after converting locations with the map provider
 	public var extent : MapExtent;
 	public var location : Location;
 
@@ -62,7 +62,7 @@ class PolygonMarker extends Sprite implements Redrawable
 		 * ring of the polygon, and subsequent arrays will be treated as holes if they overlap it.
 		 *
 		 */
-	public function new(map : Map, locations : Array<Dynamic>, autoClose : Bool = true)
+	public function new(map : Map, locations : Array<Location>, autoClose : Bool = true)
 	{
 		super();
 		this.map = map;
@@ -72,31 +72,36 @@ class PolygonMarker extends Sprite implements Redrawable
 
 		if (locations != null && locations.length > 0)
 		{
-			if (locations.length > 0 && Std.is(locations[0], Location))
-			{
-				locations = [locations];
-			}
-			if (locations[0].length > 0 && Std.is(locations[0], Array))
-			{
-				this.locations = [locations[0]];
-				this.extent = MapExtent.fromLocations(locations[0]);
-				this.location = try cast(locations[0][0], Location) catch (e:Dynamic) null;
-				this.coordinates = [locations[0].map(l2c)];
+			//if (locations.length > 0 && Std.is(locations[0], Location))
+			//{
+			//	locations = [locations];
+			//}
+			//if (locations[0].length > 0 && Std.is(locations[0], Array))
+			//{
+			//	this.locations = [locations[0]];
+			//	this.extent = MapExtent.fromLocations(locations[0]);
+			//	this.location = try cast(locations[0][0], Location) catch (e:Dynamic) null;
+			//	this.coordinates = [locations[0].map(l2c)];
 
-				for (hole/* AS3HX WARNING could not determine type for var: hole exp: ECall(EField(EIdent(locations),slice),[EConst(CInt(1))]) type: null */ in locations.substring(1))
-				{
-					addHole(hole);
-				}
-			}
+			//	for (hole in locations.substring(1))
+			//	{
+			//		addHole(hole);
+			//	}
+			//}
+			
+			this.locations = locations;
+			this.extent = MapExtent.fromLocations(locations);
+			this.location = locations[0];
+			this.coordinates = locations.map(l2c);
 		}
 	}
 
-	public function addHole(hole : Array<Dynamic>) : Void
+	public function addHole(hole : Array<Location>) : Void
 	{
-		this.locations.push(hole);
-		this.extent.encloseExtent(MapExtent.fromLocations(hole));
-		this.coordinates.push(hole.map(l2c));
-		updateGraphics();
+		//this.locations.push(hole);
+		//this.extent.encloseExtent(MapExtent.fromLocations(hole));
+		//this.coordinates.push(hole.map(l2c));
+		//updateGraphics();
 	}
 
 	private function l2c(l : Location) : Coordinate
@@ -144,14 +149,15 @@ class PolygonMarker extends Sprite implements Redrawable
 
 		if (location != null)
 		{
-			var firstPoint : Point = grid.coordinatePoint(coordinates[0][0]);
-			for (ring in coordinates)
-			{
-				var ringPoint : Point = grid.coordinatePoint(ring[0]);
+			var firstPoint : Point = grid.coordinatePoint(coordinates[0]);
+//			for (ring in coordinates)
+//			{
+				var ringPoint : Point = grid.coordinatePoint(coordinates[0]);
 				graphics.moveTo(ringPoint.x - firstPoint.x, ringPoint.y - firstPoint.y);
-				var p : Point;
-				for (coord/* AS3HX WARNING could not determine type for var: coord exp: ECall(EField(EIdent(ring),slice),[EConst(CInt(1))]) type: null */ in ring.substring(1))
+				var p : Point = null;
+				for (i in 1...coordinates.length)
 				{
+					var coord = coordinates[i];
 					p = grid.coordinatePoint(coord);
 					graphics.lineTo(p.x - firstPoint.x, p.y - firstPoint.y);
 				}
@@ -159,7 +165,7 @@ class PolygonMarker extends Sprite implements Redrawable
 				{
 					graphics.lineTo(ringPoint.x - firstPoint.x, ringPoint.y - firstPoint.y);
 				}
-			}
+	//		}
 		}
 
 		if (fill)

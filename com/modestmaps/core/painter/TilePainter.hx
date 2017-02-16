@@ -26,23 +26,23 @@ import openfl.utils.Timer;
 
 class TilePainter extends EventDispatcher implements ITilePainter
 {
-	private static var DEFAULT_CACHE_LOADERS : Bool = false;  // !!! only enable this if you have crossdomain permissions to access Loader content
-	private static var DEFAULT_SMOOTH_CONTENT : Bool = false;  // !!! only enable this if you have crossdomain permissions to access Loader content
+	private static inline var DEFAULT_CACHE_LOADERS : Bool = false;  // !!! only enable this if you have crossdomain permissions to access Loader content
+	private static inline var DEFAULT_SMOOTH_CONTENT : Bool = false;  // !!! only enable this if you have crossdomain permissions to access Loader content
 	private static inline var DEFAULT_MAX_LOADER_CACHE_SIZE : Int = 0;  // !!! suggest 256 or so
 	private static inline var DEFAULT_MAX_OPEN_REQUESTS : Int = 4;  // TODO: should this be split into max-new-requests-per-frame, too?
 
 	///////////// BEGIN OPTIONS
 
 	/** set this to true to enable bitmap smoothing on tiles - requires crossdomain.xml permissions so won't work online with most providers */
-	public static var smoothContent : Bool = DEFAULT_SMOOTH_CONTENT;
+	public static inline var smoothContent : Bool = DEFAULT_SMOOTH_CONTENT;
 
 	/** how many Loaders are allowed to be open at once? */
-	public static var maxOpenRequests : Int = DEFAULT_MAX_OPEN_REQUESTS;
+	public static inline var maxOpenRequests : Int = DEFAULT_MAX_OPEN_REQUESTS;
 
 	/** with tile providers that you have crossdomain.xml support for,
 		 *  it's possible to avoid extra requests by reusing bitmapdata. enable cacheLoaders to try and do that */
-	public static var cacheLoaders : Bool = DEFAULT_CACHE_LOADERS;
-	public static var maxLoaderCacheSize : Int = DEFAULT_MAX_LOADER_CACHE_SIZE;
+	public static inline var cacheLoaders : Bool = DEFAULT_CACHE_LOADERS;
+	public static inline var maxLoaderCacheSize : Int = DEFAULT_MAX_LOADER_CACHE_SIZE;
 
 	///////////// END OPTIONS
 
@@ -58,8 +58,8 @@ class TilePainter extends EventDispatcher implements ITilePainter
 	// TODO: document this in IMapProvider, so that provider implementers know
 	// they are free to check the bounds of their overlays and don't have to serve
 	// millions of 404s
-	private var layersNeeded:StringMap<Array<String>> = new StringMap<Array<String>>();
-	private var loaderTiles:ObjectMap<Loader, Tile> = new ObjectMap<Loader, Tile>();
+	private var layersNeeded = new StringMap<Array<String>>();
+	private var loaderTiles = new ObjectMap<Loader, Tile>();
 
 	// open requests
 	private var openRequests : Array<Loader> = [];
@@ -68,7 +68,7 @@ class TilePainter extends EventDispatcher implements ITilePainter
 	private var previousOpenRequests : Int = 0;
 
 	// loader cache is shared across map instances, hence this is static for the time being
-	private static var loaderCache:StringMap<Bitmap>;
+	private static var loaderCache : StringMap<Bitmap>;
 	private static var cachedUrls : Array<String> = [];
 
 	public function new(tileGrid : TileGrid, provider : IMapProvider, queueFunction : Dynamic)

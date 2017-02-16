@@ -1,5 +1,6 @@
 import openfl.display.Sprite;
 import openfl.events.MouseEvent;
+import openfl.filters.DropShadowFilter;
 
 class SampleMarker extends Sprite
 {
@@ -11,7 +12,9 @@ class SampleMarker extends Sprite
 		buttonMode = true;
 		mouseChildren = false;
 		tabEnabled = false;
-		//cacheAsBitmap = true;
+		#if flash
+			cacheAsBitmap = true;
+		#end
 		mouseEnabled = true;
 		// David's Flash example draws the marker
 		// in the Flash environment
@@ -24,7 +27,8 @@ class SampleMarker extends Sprite
 		graphics.beginFill(0xff0000);
 		graphics.drawCircle(0, 0, 10);
 		graphics.endFill();
-		//todo filters = [new BevelFilter(1, 45, 0xffffff, 0.35, 0x000000, 0.35, 2, 2, 1, 1)];
+		
+		filters = [new DropShadowFilter()];
 		addEventListener(MouseEvent.MOUSE_OVER, mouseOver);
 	}
 	private function get_title() : String

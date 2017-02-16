@@ -15,7 +15,8 @@ class BlueMarbleMapProvider extends AbstractMapProvider implements IMapProvider
 	public function new(minZoom : Int = AbstractMapProvider.MIN_ZOOM, maxZoom : Int = AbstractMapProvider.MAX_ZOOM)
 	{
 		super(minZoom, Math.min(9, maxZoom));
-		if (baseURL == null)             baseURL = "http://s3.amazonaws.com/com.modestmaps.bluemarble/";
+		if (baseURL == null)             
+			baseURL = "http://s3.amazonaws.com/com.modestmaps.bluemarble/";
 	}
 
 	public function toString() : String
