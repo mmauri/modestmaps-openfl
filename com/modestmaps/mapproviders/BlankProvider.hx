@@ -13,12 +13,12 @@ class BlankProvider extends AbstractMapProvider implements IMapProvider
         return "BLANK_PROVIDER";
     }
     
-    override private function get_tileWidth() : Float
+    override private function get_tileWidth() : Int
     {
         return 32;
     }
     
-    override private function get_tileHeight() : Float
+    override private function get_tileHeight() : Int
     {
         return 32;
     }
