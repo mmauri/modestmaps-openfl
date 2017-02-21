@@ -15,11 +15,11 @@ class DemoMarkers
 
 		// a tooltip/flag that appears on marker rollover
 	private var _tooltip : Tooltip;
-	private var _parent : ModestMapsSample;
+	private var _parent : Main;
 
 	
 	
-	public function new(parent : ModestMapsSample) 
+	public function new(parent : Main) 
 	{
 		_parent = parent;
 		_tooltip = new Tooltip();

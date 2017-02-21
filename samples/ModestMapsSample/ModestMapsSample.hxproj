@@ -17,12 +17,12 @@
   <!-- Other classes to be compiled into your SWF -->
   <classpaths>
     <class path="D:\HaxeToolkit\haxe\lib\actuate\1,8,7" />
-    <class path="D:\HaxeToolkit\haxe\lib\openfl\4,8,1" />
+    <class path="D:\HaxeToolkit\haxe\lib\openfl\git" />
     <class path="D:\HaxeToolkit\haxe\lib\lime\3,7,4" />
     <class path="D:\HaxeToolkit\haxe\lib\modestmaps-openfl\git" />
     <class path="src" />
-    <class path="d:\HaxeToolkit\haxe\lib\openfl\4,8,1\externs\core\openfl" />
-    <class path="d:\HaxeToolkit\haxe\lib\openfl\4,8,1\externs\extras" />
+    <class path="d:\HaxeToolkit\haxe\lib\openfl\git\externs\core\openfl" />
+    <class path="d:\HaxeToolkit\haxe\lib\openfl\git\externs\extras" />
     <class path="bin\flash\debug\haxe" />
   </classpaths>
   <!-- Build options -->

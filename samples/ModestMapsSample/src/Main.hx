@@ -34,7 +34,7 @@ import openfl.text.TextFormat;
  *  @author David Knape
  */
 //[SWF(backgroundColor="#ffffff", frameRate="30")]
-class ModestMapsSample extends Sprite
+class Main extends Sprite
 {
 	// Our modest map
 	public var map:TweenMap;
@@ -67,15 +67,15 @@ class ModestMapsSample extends Sprite
 		createChildren();
 
 		// place the markers
-		//var demoMarkers = new DemoMarkers(this);
-		//demoMarkers.placeMarkers();
+		var demoMarkers = new DemoMarkers(this);
+		demoMarkers.placeMarkers();
 		
 		//Heatmap
 		//var demoHeatmap = new DemoHeatmap(map);
 	
 		//var demoMandel = new DemoMandel(map);
 		
-		var demoPolygons = new DemoPolygons(map);
+		//var demoPolygons = new DemoPolygons(map);
 		
 		addChild(_mapButtons);
 		// adjust sizes for things if the window changes

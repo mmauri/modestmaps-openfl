@@ -6,7 +6,7 @@
 	<meta title="ModestMapsSample" package="com.modestmaps.sample.ModestMapsSample" version="1.0.0" company="" />
 	
 	<!-- output -->
-	<app main="ModestMapsSample" file="ModestMapsSample" path="bin" />
+	<app main="Main" file="ModestMapsSample" path="bin" />
 	
 	<window background="#ffffff" fps="60" vsync="true" />
 	
